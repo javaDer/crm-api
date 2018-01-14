@@ -1,13 +1,17 @@
 package com.jswl.timer;
 
-import com.riversoft.weixin.app.base.AppSetting;
+import com.alibaba.fastjson.JSONObject;
+import com.riversoft.weixin.mp.base.AppSetting;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
 
@@ -17,8 +21,14 @@ import java.sql.SQLException;
 @Component
 public class Scheduler {
     private final Logger logger = Logger.getRootLogger();
+    public final static long ONE_Minute = 7180 * 1000;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
-    @Resource
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    @Scheduled(fixedDelay = ONE_Minute)
     public void getAccessToken() throws SQLException {
         logger.info("==============开始获取access_token===============");
         String access_token = null;
@@ -40,10 +50,13 @@ public class Scheduler {
             byte[] jsonBytes = new byte[size];
             is.read(jsonBytes);
             String message = new String(jsonBytes, "UTF-8");
-            JSONObject demoJson = JSONObject.fromObject(message);
+            JSONObject demoJson = JSONObject.parseObject(message);
+            access_token = demoJson.getString("access_token");
         } catch (Exception e) {
             e.printStackTrace();
         }
+        logger.info("==============开始写入access_token===============");
+        stringRedisTemplate.opsForValue().set("global_token", access_token);
 
     }
 
