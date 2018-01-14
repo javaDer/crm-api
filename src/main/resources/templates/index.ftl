@@ -72,8 +72,8 @@
         <div class="row">
             <div class="col-md-12">
                 <!--<h1 class="arrow">Love what you do, and you'll do it well</h1>-->
-                <div class="features-wrapper">
-                    <div class="col-md-4 wp2">
+                <div class="features-wrapper ">
+                    <div class="col-md-4 wp2 online_registration">
                         <div class="icon">
                             <i class="fa fa-laptop shadow"></i>
                         </div>
@@ -462,6 +462,9 @@
 <script src="${request.contextPath}/js/modernizr.js"></script>
 
 <script type="text/javascript">
+    $(".online_registration").click(function () {
+        window.location.href = "/online_registration"
+    })
     //    $(function () {
     //        check()
     //    });

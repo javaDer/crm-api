@@ -26,4 +26,9 @@ public class IndexControllers {
         modelAndView.addObject("timestamp", jsSignature.getTimestamp() + "");
         return modelAndView;
     }
+    @RequestMapping(value = "/online_registration")
+    public ModelAndView online_registration() {
+        ModelAndView modelAndView = new ModelAndView("online_registration");
+        return modelAndView;
+    }
 }
