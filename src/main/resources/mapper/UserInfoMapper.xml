@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jswl.dao.mapper.UserInfoMapper">
+    <resultMap id="BaseResultMap" type="com.jswl.dao.models.UserInfo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="homeid" jdbcType="VARCHAR" property="homeid"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="telphone" jdbcType="VARCHAR" property="telphone"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="remake" jdbcType="VARCHAR" property="remake"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, homeid, name, user_name, telphone, phone, remake, status
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_info
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByTelphoneAndHomeId" parameterType="com.jswl.dao.models.UserInfo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_info
+        where telphone = #{telphone,jdbcType=VARCHAR}
+        AND homeid=#{homeid,jdbcType=VARCHAR}
+        AND status =0
+
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.jswl.dao.models.UserInfo">
+    insert into user_info (id, homeid, name, 
+      user_name, telphone, phone, 
+      remake, status)
+    values (#{id,jdbcType=INTEGER}, #{homeid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{telphone,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{remake,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.jswl.dao.models.UserInfo">
+        insert into user_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="homeid != null">
+                homeid,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="telphone != null">
+                telphone,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="remake != null">
+                remake,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="homeid != null">
+                #{homeid,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="telphone != null">
+                #{telphone,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="remake != null">
+                #{remake,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.jswl.dao.models.UserInfo">
+        update user_info
+        <set>
+            <if test="homeid != null">
+                homeid = #{homeid,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="telphone != null">
+                telphone = #{telphone,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="remake != null">
+                remake = #{remake,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.jswl.dao.models.UserInfo">
+    update user_info
+    set homeid = #{homeid,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      telphone = #{telphone,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      remake = #{remake,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

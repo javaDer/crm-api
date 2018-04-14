@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jswl.dao.mapper.ShipmentInfoMapper">
+    <resultMap id="BaseResultMap" type="com.jswl.dao.models.ShipmentInfo">
+        <id column="ID" jdbcType="INTEGER" property="id"/>
+        <result column="begin_city" jdbcType="VARCHAR" property="beginCity"/>
+        <result column="end_city" jdbcType="VARCHAR" property="endCity"/>
+        <result column="commander" jdbcType="VARCHAR" property="commander"/>
+        <result column="cargo_type" jdbcType="VARCHAR" property="cargoType"/>
+        <result column="volume" jdbcType="INTEGER" property="volume"/>
+        <result column="weight" jdbcType="INTEGER" property="weight"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="loading_time" jdbcType="VARCHAR" property="loadingTime"/>
+        <result column="telphone" jdbcType="VARCHAR" property="telphone"/>
+        <result column="homeid" jdbcType="VARCHAR" property="homeid"/>
+        <result column="choose_style" jdbcType="INTEGER" property="chooseStyle"/>
+        <result column="release_date" jdbcType="TIMESTAMP" property="releaseDate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, begin_city, end_city, commander, cargo_type, volume, weight, remarks, status, 
+    loading_time, choose_style, release_date,telphone,homeid
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from shipment_info
+        where ID = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from shipment_info
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.jswl.dao.models.ShipmentInfo">
+    insert into shipment_info (ID, begin_city, end_city, 
+      commander, cargo_type, volume, 
+      weight, remarks, status, 
+      loading_time, choose_style, release_date,telphone,homeid
+      )
+    values (#{id,jdbcType=INTEGER}, #{beginCity,jdbcType=VARCHAR}, #{endCity,jdbcType=VARCHAR}, 
+      #{commander,jdbcType=VARCHAR}, #{cargoType,jdbcType=VARCHAR}, #{volume,jdbcType=INTEGER}, 
+      #{weight,jdbcType=INTEGER}, #{remarks,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{loadingTime,jdbcType=VARCHAR}, #{chooseStyle,jdbcType=INTEGER}, #{releaseDate,jdbcType=TIMESTAMP}, #{telphone,jdbcType=VARCHAR}
+      , #{homeid,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.jswl.dao.models.ShipmentInfo">
+        insert into shipment_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="beginCity != null">
+                begin_city,
+            </if>
+            <if test="endCity != null">
+                end_city,
+            </if>
+            <if test="commander != null">
+                commander,
+            </if>
+            <if test="cargoType != null">
+                cargo_type,
+            </if>
+            <if test="volume != null">
+                volume,
+            </if>
+            <if test="weight != null">
+                weight,
+            </if>
+            <if test="remarks != null">
+                remarks,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="loadingTime != null">
+                loading_time,
+            </if>
+            <if test="chooseStyle != null">
+                choose_style,
+            </if>
+            <if test="releaseDate != null">
+                release_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="beginCity != null">
+                #{beginCity,jdbcType=VARCHAR},
+            </if>
+            <if test="endCity != null">
+                #{endCity,jdbcType=VARCHAR},
+            </if>
+            <if test="commander != null">
+                #{commander,jdbcType=VARCHAR},
+            </if>
+            <if test="cargoType != null">
+                #{cargoType,jdbcType=VARCHAR},
+            </if>
+            <if test="volume != null">
+                #{volume,jdbcType=INTEGER},
+            </if>
+            <if test="weight != null">
+                #{weight,jdbcType=INTEGER},
+            </if>
+            <if test="remarks != null">
+                #{remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="loadingTime != null">
+                #{loadingTime,jdbcType=VARCHAR},
+            </if>
+            <if test="chooseStyle != null">
+                #{chooseStyle,jdbcType=INTEGER},
+            </if>
+            <if test="releaseDate != null">
+                #{releaseDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.jswl.dao.models.ShipmentInfo">
+        update shipment_info
+        <set>
+            <if test="beginCity != null">
+                begin_city = #{beginCity,jdbcType=VARCHAR},
+            </if>
+            <if test="endCity != null">
+                end_city = #{endCity,jdbcType=VARCHAR},
+            </if>
+            <if test="commander != null">
+                commander = #{commander,jdbcType=VARCHAR},
+            </if>
+            <if test="cargoType != null">
+                cargo_type = #{cargoType,jdbcType=VARCHAR},
+            </if>
+            <if test="volume != null">
+                volume = #{volume,jdbcType=INTEGER},
+            </if>
+            <if test="weight != null">
+                weight = #{weight,jdbcType=INTEGER},
+            </if>
+            <if test="remarks != null">
+                remarks = #{remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="loadingTime != null">
+                loading_time = #{loadingTime,jdbcType=VARCHAR},
+            </if>
+            <if test="chooseStyle != null">
+                choose_style = #{chooseStyle,jdbcType=INTEGER},
+            </if>
+            <if test="releaseDate != null">
+                release_date = #{releaseDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.jswl.dao.models.ShipmentInfo">
+    update shipment_info
+    set begin_city = #{beginCity,jdbcType=VARCHAR},
+      end_city = #{endCity,jdbcType=VARCHAR},
+      commander = #{commander,jdbcType=VARCHAR},
+      cargo_type = #{cargoType,jdbcType=VARCHAR},
+      volume = #{volume,jdbcType=INTEGER},
+      weight = #{weight,jdbcType=INTEGER},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      loading_time = #{loadingTime,jdbcType=VARCHAR},
+      choose_style = #{chooseStyle,jdbcType=INTEGER},
+      release_date = #{releaseDate,jdbcType=TIMESTAMP},
+      telphone = #{releaseDate,jdbcType=VARCHAR},
+      homeid = #{releaseDate,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from shipment_info
+        where 1=1
+        AND status =0
+        GROUP BY release_date DESC
+    </select>
+    <select id="countShipmentInfo" resultType="int">
+        select COUNT(0) from shipment_info where 1=1
+        AND status =0;
+    </select>
+
+</mapper>
