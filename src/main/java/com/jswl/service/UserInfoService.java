@@ -17,4 +17,9 @@ public class UserInfoService {
         UserInfo userInfo = userInfoMapper.selectByTelphoneAndHomeId(user);
         return userInfo;
     }
+
+    public UserInfo selectByTelphone(String telphone) {
+        UserInfo userInfo = userInfoMapper.selectByTelphone(telphone);
+        return userInfo;
+    }
 }

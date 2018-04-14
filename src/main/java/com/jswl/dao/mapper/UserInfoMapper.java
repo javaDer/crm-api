@@ -16,4 +16,6 @@ public interface UserInfoMapper {
     int updateByPrimaryKey(UserInfo record);
 
     UserInfo selectByTelphoneAndHomeId(UserInfo user);
+
+    UserInfo selectByTelphone(String telphone);
 }

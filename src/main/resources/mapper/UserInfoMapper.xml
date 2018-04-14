@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.jswl.dao.models.UserInfo">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="homeid" jdbcType="VARCHAR" property="homeid"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="user_name" jdbcType="VARCHAR" property="userName"/>
         <result column="telphone" jdbcType="VARCHAR" property="telphone"/>
@@ -12,22 +13,13 @@
         <result column="status" jdbcType="INTEGER" property="status"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, homeid, name, user_name, telphone, phone, remake, status
+    id, homeid, password, name, user_name, telphone, phone, remake, status
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from user_info
         where id = #{id,jdbcType=INTEGER}
-    </select>
-    <select id="selectByTelphoneAndHomeId" parameterType="com.jswl.dao.models.UserInfo" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from user_info
-        where telphone = #{telphone,jdbcType=VARCHAR}
-        AND homeid=#{homeid,jdbcType=VARCHAR}
-        AND status =0
-
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user_info
@@ -134,4 +126,22 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <select id="selectByTelphone" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_info
+        where 1=1
+        AND telphone = #{telphone,jdbcType=VARCHAR}
+        AND status =0
+    </select>
+    <select id="selectByTelphoneAndHomeId" parameterType="com.jswl.dao.models.UserInfo"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_info
+        where 1=1
+        AND telphone = #{telphone,jdbcType=VARCHAR}
+        AND homeid = #{homeid,jdbcType=VARCHAR}
+        AND status =0
+    </select>
 </mapper>

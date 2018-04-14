@@ -13,6 +13,8 @@ public class UserInfo {
 
     private String phone;
 
+    private String password;
+
     private String remake;
 
     private Integer status;
@@ -79,5 +81,13 @@ public class UserInfo {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

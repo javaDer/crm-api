@@ -1,5 +1,6 @@
 package com.jswl.controllers;
 
+import com.alibaba.fastjson.JSON;
 import com.jswl.dao.models.ShipmentInfo;
 import com.jswl.dao.models.UserInfo;
 import com.jswl.service.ShipmentInfoService;
@@ -45,10 +46,28 @@ public class IndexControllers {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/login")
+    @RequestMapping(value = "/")
     public ModelAndView login() {
         ModelAndView mv = new ModelAndView("login");
         return mv;
+    }
+
+    //    注册页面跳转
+    @RequestMapping(value = "/reg")
+    public ModelAndView reg() {
+        ModelAndView mv = new ModelAndView("register");
+        return mv;
+    }
+
+    @RequestMapping(value = "/submit_reg")
+    @ResponseBody
+    public JSON submit_reg(String telphone, String homeid, String paw) {
+//        根据电话号码查询房间号
+        UserInfo user = userInfoService.selectByTelphone(telphone);
+        if (user.getHomeid().equals(homeid)) {
+            System.out.println("1111111111111111");
+        }
+        return null;
     }
 
     @RequestMapping(value = "/publish")

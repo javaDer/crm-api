@@ -30,8 +30,8 @@
         <div id="large-header" class="large-header">
             <canvas id="demo-canvas"></canvas>
             <div class="logo_box">
-                <h3>金沙物流园货源信息发布平台欢迎你</h3>
-                <form action="/publish" name="form_login" id="form_login" method="post">
+                <h3>注册用户</h3>
+                <form action="/reg" name="form_login" id="form_login" method="post">
                     <div class="input_outer">
                         <span class="u_user"></span>
                         <input name="telphone" class="text" style="color: #FFFFFF !important" type="tel"
@@ -41,13 +41,24 @@
                         <span class="us_uer"></span>
                         <input name="homeid" class="text"
                                style="color: #FFFFFF !important; position:absolute; z-index:100;" value=""
-                               type="text" placeholder="请输入房间号">
+                               type="text" placeholder="请输入金沙物流信息部房间号">
+                    </div>
+                    <div class="input_outer">
+                        <span class="us_uer"></span>
+                        <input name="password" class="text" id="password"
+                               style="color: #FFFFFF !important; position:absolute; z-index:100;" value=""
+                               type="password" placeholder="请设置密码">
+                    </div>
+                    <div class="input_outer">
+                        <span class="us_uer"></span>
+                        <input name="confirm_password" class="text" id="confirm_password"
+                               style="color: #FFFFFF !important; position:absolute; z-index:100;" value=""
+                               type="password" placeholder="请确认密码">
                     </div>
                     <div class="aui-form-ty">
                         <input type="checkbox" name="ck" id="ckc"/>我已阅读<a href="#" style="color: #ed4242">「信息发布平台协议」</a>
                     </div>
-                    <div class="mb2"><a class="act-but submit sumbit_login" style="color: #FFFFFF">登录</a></div>
-                    <div class="mb2"><a href="/reg" class="act-but submit" style="color: #FFFFFF">注册</a></div>
+                    <div class="mb2"><a class="act-but submit btn-reg" style="color: #FFFFFF">注册</a></div>
 
                 </form>
             </div>
@@ -61,20 +72,58 @@
 <script src="${request.contextPath}/js/jquery-1.8.2.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
-    $(".sumbit_login").click(function () {
+    $(".btn-reg").click(function () {
         var telphone = $("input[name='telphone']").val();
         var homeid = $("input[name='homeid']").val();
+        var paw = $("input[name='password']").val();
+        var confirm_paw = $("input[name='confirm_password']").val();
         if (!$("#ckc").is(':checked')) {
             swal("警告!", "请同意信息发布平台协议", "warning");
             return false;
         }
-        if (telphone != "" && homeid != "") {
-            $("#form_login").submit();
+        if (paw != confirm_paw) {
+            swal("警告!", "两次输入的密码不一致！", "warning");
+            return false;
+        }
+        if (telphone == "") {
+            swal("警告!", "电话号码不能为空!", "warning");
+            return false
+        } else if (homeid == "") {
+            swal("警告!", "金沙物流信息部房间号不能为空!", "warning");
+            return false
+        } else if (paw == '') {
+            swal("警告!", "密码不能为空!", "warning");
+            return false
         } else {
-            swal("警告!", "电话号码/房间号不能为空!", "warning");
+            confirmHomeByTelphone(telphone, homeid, paw)
         }
     })
-
+    function confirmHomeByTelphone(telphone, homeid, paw) {
+        $.ajax({
+            url: '/submit_reg',
+            type: 'POST', //GET
+            async: true, //或false,是否异步
+            data: {
+                'telphone': telphone,
+                'homeid': homeid,
+                'paw': paw,
+            },
+            dataType: 'json', //返回的数据格式：json/xml/html/script/jsonp/text
+            success: function (data, textStatus, jqXHR) {
+                console.log(data)
+                eachdata(data)
+            },
+            error: function (xhr, textStatus) {
+                console.log('错误')
+                console.log(xhr)
+                console.log(textStatus)
+            },
+            complete: function () {
+                console.log('结束')
+            }
+        })
+        alert("123456")
+    }
 </script>
 <div style="text-align:center;">
 </div>

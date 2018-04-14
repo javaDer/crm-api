@@ -18,7 +18,7 @@
         <result column="release_date" jdbcType="TIMESTAMP" property="releaseDate"/>
     </resultMap>
     <sql id="Base_Column_List">
-    ID, begin_city, end_city, commander, cargo_type, volume, weight, remarks, status, 
+    ID, begin_city, end_city, commander, cargo_type, volume, weight, remarks, status,
     loading_time, choose_style, release_date,telphone,homeid
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
