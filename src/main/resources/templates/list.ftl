@@ -119,12 +119,12 @@
             <div class="weui-navbar__item weui_bar__item_on">
                 货物类型(筛选)
             </div>
-            <div class="weui-navbar__item">
+            <div class="weui-navbar__item weui_bar__item_on">
                 发货地(筛选)
             </div>
-            <#--<div class="weui-navbar__item">-->
-                <#--选项三-->
-            <#--</div>-->
+        <#--<div class="weui-navbar__item">-->
+        <#--选项三-->
+        <#--</div>-->
         </div>
         <img src="${request.contextPath}/img/setting.png"/>
     </div>
