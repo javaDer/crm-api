@@ -1,5 +1,6 @@
 package com.jswl.controllers;
 
+import cn.hutool.crypto.SecureUtil;
 import com.alibaba.fastjson.JSON;
 import com.jswl.dao.models.ShipmentInfo;
 import com.jswl.dao.models.UserInfo;
@@ -18,10 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Javaer on 2018/1/13.
@@ -52,43 +50,41 @@ public class IndexControllers {
         return mv;
     }
 
-    //    注册页面跳转
-    @RequestMapping(value = "/reg")
-    public ModelAndView reg() {
-        ModelAndView mv = new ModelAndView("register");
-        return mv;
-    }
-
-    @RequestMapping(value = "/submit_reg")
-    @ResponseBody
-    public JSON submit_reg(String telphone, String homeid, String paw) {
-//        根据电话号码查询房间号
-        UserInfo user = userInfoService.selectByTelphone(telphone);
-        if (user.getHomeid().equals(homeid)) {
-            System.out.println("1111111111111111");
-        }
-        return null;
-    }
 
     @RequestMapping(value = "/publish")
     public ModelAndView publish(String telphone, String homeid) {
         ModelAndView modelAndView = new ModelAndView();
-        UserInfo user = new UserInfo();
-        if (telphone != null && homeid != null) {
-            user.setTelphone(telphone);
-            user.setHomeid(homeid);
-            UserInfo userInfo = userInfoService.selectByTelphoneAndHomeId(user);
-            if (userInfo == null) {
-                modelAndView.setViewName("login");
-                return modelAndView;
-            }
-            modelAndView.setViewName("publish");
-            modelAndView.addObject("telphone", telphone);
-            modelAndView.addObject("homeid", homeid);
-        } else {
-            modelAndView.setViewName("login");
-        }
+
+        modelAndView.setViewName("publish");
+//        modelAndView.addObject("telphone", telphone);
+//        modelAndView.addObject("homeid", homeid);
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/login")
+    @ResponseBody
+    public Map<String, Object> login(String telphone, String pwd) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        UserInfo user = new UserInfo();
+        if (telphone != null && pwd != null) {
+            user.setTelphone(telphone);
+            user.setPassword(SecureUtil.md5(pwd));
+            UserInfo userInfo = userInfoService.selectByTelphoneAndPwd(user);
+            //判断userInfo是否为空
+            if (userInfo == null && "".equals(userInfo)) {
+                map.put("msg", "密码错误");
+                map.put("status", false);
+            } else {
+                map.put("msg", "登录成功");
+                map.put("parameter", userInfo.getHomeid());
+                map.put("status", true);
+            }
+        } else {
+            map.put("msg", "电话号码,密码不能为空");
+            map.put("status", false);
+        }
+
+        return map;
     }
 
     @RequestMapping(value = "/list")
@@ -106,7 +102,8 @@ public class IndexControllers {
 
     @RequestMapping(value = "/save")
     @ResponseBody
-    public Map<String, Object> saveData(String begin_city, String end_city, String commander, String homeid, String telphone, String cargo_type, String date_time, Integer weight, Integer volume, String remake) {
+    public Map<String, Object> saveData(String begin_city, String end_city, String commander, String homeid, String
+            telphone, String cargo_type, String date_time, Integer weight, Integer volume, String remake) {
         ShipmentInfo shipmentInfo = new ShipmentInfo();
         Map<String, Object> map = new HashMap<String, Object>();
         Date date = new Date();
@@ -145,5 +142,39 @@ public class IndexControllers {
         String[] strArr = data.split("\\-");
 
         return strArr[0].toString() + "" + strArr[1].toString();
+    }
+
+    //    注册页面跳转
+    @RequestMapping(value = "/reg")
+    public ModelAndView reg() {
+        ModelAndView mv = new ModelAndView("register");
+        return mv;
+    }
+
+    @RequestMapping(value = "/submit_reg")
+    @ResponseBody
+    public Map<String, Object> submit_reg(String telphone, String homeid, String paw) {
+//        根据电话号码查询房间号
+        Map<String, Object> map = new HashMap<String, Object>();
+        UserInfo user = userInfoService.selectByTelphone(telphone);
+        if (user.getHomeid().equals(homeid)) {
+            //密码md5加密
+            String pws_md5 = SecureUtil.md5(paw);
+            user.setPassword(pws_md5);
+            user.setTelphone(telphone);
+            int flag = userInfoService.updateAndInsertByTelphone(user);
+            if (flag > 0) {
+                map.put("msg", "注册成功,感谢使用金沙物流园信息发布平台!");
+                map.put("status", true);
+            } else {
+                map.put("msg", "注册失败,请联系管理员!");
+                map.put("status", true);
+            }
+
+        } else {
+            map.put("msg", "房间信息与电话号码不匹配,请联系管理员!");
+            map.put("status", false);
+        }
+        return map;
     }
 }

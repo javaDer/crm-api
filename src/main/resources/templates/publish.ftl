@@ -10,7 +10,7 @@
     <meta content="telephone=no" name="format-detection"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
-    <title>金沙物流园货源信息发布平台</title>
+    <title>金沙物流园信息发布平台</title>
     <script src="js/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" type="text/css" href="${request.contextPath}/css/payment.css"/>
     <link rel="stylesheet" type="text/css" href="${request.contextPath}/css/index.css"/>
@@ -26,11 +26,13 @@
         .datetime-picker .picker-item {
             text-overflow: initial
         }
-
     </style>
 </head>
 
 <body>
+<#--<header class="head">-->
+<#--<span class="head_font">全国货运联盟信息发布平台</span>-->
+<#--</header>-->
 <section class="content">
     <div class="contentList">
         <ul>
@@ -87,24 +89,18 @@
                     <button type="button" class="addOn"></button>
                 </div>
             </li>
-        <#--<li class="noteInfo">-->
-        <#--<label>备注信息</label>-->
-        <#--<span id="remake">装卸方式、付款方式、备注</span>-->
-        <#--</li>-->
+            <li class="noteInfo">
+                <label>备注信息</label>
+                <span id="remake">装卸方式、付款方式、备注</span>
+            </li>
         </ul>
     </div>
 </section>
 <section class="fb">
-    <button type="button" class="issue_btn" id="issue">确定发布</button>
+    <button type="button" id="issue">确定发布</button>
 </section>
-
 <input type="hidden" id="car_type" value="整车"/>
 <section class="layerBg"></section>
-<!--
-作者：1152206843@qq.com
-时间：2018-02-28
-描述：车长车型
--->
 <section class="layer carStyleLayer">
     <div class="layerTitle">
         <h1>车长车型<em class="close">×</em></h1>
@@ -308,8 +304,8 @@
                 </ul>
             </div>
         </div>
-        <input type="hidden" id="telphone" value="${telphone}">
-        <input type="hidden" id="homeid" value="${homeid}">
+        <#--<input type="hidden" id="telphone" value="${telphone}">-->
+        <#--<input type="hidden" id="homeid" value="${homeid}">-->
     </div>
     <div class="layerFoot">
         <button type="button" class="noteBtn">确定</button>
@@ -397,9 +393,6 @@
     }
     ;
 
-    //    function chooseStyle(obj) {
-    //        $(obj).addClass("current").siblings("li").removeClass("current");
-    //    }
     $(function () {
         init();
         //选择车长车型

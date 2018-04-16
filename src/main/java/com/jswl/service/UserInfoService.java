@@ -13,13 +13,18 @@ public class UserInfoService {
     @Autowired
     private UserInfoMapper userInfoMapper;
 
-    public UserInfo selectByTelphoneAndHomeId(UserInfo user) {
-        UserInfo userInfo = userInfoMapper.selectByTelphoneAndHomeId(user);
-        return userInfo;
-    }
-
     public UserInfo selectByTelphone(String telphone) {
         UserInfo userInfo = userInfoMapper.selectByTelphone(telphone);
         return userInfo;
+    }
+
+    public UserInfo selectByTelphoneAndPwd(UserInfo user) {
+        UserInfo userInfo = userInfoMapper.selectByTelphoneAndPwd(user);
+        return userInfo;
+    }
+
+
+    public int updateAndInsertByTelphone(UserInfo user) {
+        return userInfoMapper.updateAndInsertByTelphone(user);
     }
 }

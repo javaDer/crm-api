@@ -88,6 +88,36 @@
             </if>
         </trim>
     </insert>
+    <update id="updateAndInsertByTelphone" parameterType="com.jswl.dao.models.UserInfo">
+        update user_info
+        <set>
+            <if test="homeid != null">
+                homeid = #{homeid,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="telphone != null">
+                telphone = #{telphone,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="remake != null">
+                remake = #{remake,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+        </set>
+        where telphone = #{telphone,jdbcType=INTEGER}
+    </update>
     <update id="updateByPrimaryKeySelective" parameterType="com.jswl.dao.models.UserInfo">
         update user_info
         <set>
@@ -142,6 +172,16 @@
         where 1=1
         AND telphone = #{telphone,jdbcType=VARCHAR}
         AND homeid = #{homeid,jdbcType=VARCHAR}
+        AND status =0
+    </select>
+    <select id="selectByTelphoneAndPwd" parameterType="com.jswl.dao.models.UserInfo"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_info
+        where 1=1
+        AND telphone = #{telphone,jdbcType=VARCHAR}
+        AND password = #{password,jdbcType=VARCHAR}
         AND status =0
     </select>
 </mapper>

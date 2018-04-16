@@ -122,7 +122,6 @@
                 console.log('结束')
             }
         })
-        alert("123456")
     }
 </script>
 <div style="text-align:center;">

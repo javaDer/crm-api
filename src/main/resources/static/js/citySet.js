@@ -1,7 +1,7 @@
-﻿function SelCity(obj,e) {
+﻿function SelCity(obj, e) {
     var ths = obj;
     var dal = '<div class="_citys"><span title="关闭" id="cColse" >×</span><ul id="_citysheng" class="_citys0"><li class="citySel">省份</li><li>城市</li><li>区县</li></ul><div id="_citys0" class="_citys1"></div><div style="display:none" id="_citys1" class="_citys1"></div><div style="display:none" id="_citys2" class="_citys1"></div></div>';
-    Iput.show({ id: ths, event: e, content: dal,width:"470"});
+    Iput.show({id: ths, event: e, content: dal, width: "470"});
     $("#cColse").click(function () {
         Iput.colse();
     });
@@ -38,7 +38,7 @@
         $("#_citys1 a").click(function () {
             $("#_citys1 a,#_citys2 a").removeClass("AreaS");
             $(this).addClass("AreaS");
-            var lev =  $(this).data("name");
+            var lev = $(this).data("name");
             if (document.getElementById("hproper") == null) {
                 var hcitys = $('<input>', {
                     type: 'hidden',
@@ -54,7 +54,7 @@
                 $("#hproper").val(lev);
             }
             var bc = $("#hcity").val();
-            ths.value = bc+ "-" + $(this).data("name");
+            ths.value = bc + "-" + $(this).data("name");
 
             var ar = getArea($(this));
 

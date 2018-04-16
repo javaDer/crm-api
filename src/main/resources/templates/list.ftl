@@ -12,6 +12,9 @@
     <title>金沙物流货源信息发布中心</title>
     <script src="${request.contextPath}js/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" src="${request.contextPath}js/jquery-weui.min.js"></script>
+    <script src="${request.contextPath}/js/Popt.js"></script>
+    <script src="${request.contextPath}/js/cityJson.js"></script>
+    <script src="${request.contextPath}/js/citySet.js"></script>
 <#--<script src="${request.contextPath}/js/webSocket.js"></script>-->
     <link rel="stylesheet" type="text/css" href="${request.contextPath}css/payment.css"/>
     <link rel="stylesheet" type="text/css" href="${request.contextPath}css/global.css"/>
@@ -101,6 +104,61 @@
             left: 0px;
             right: 0;
         }
+
+        .layerBgs {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+
+        }
+
+        .layerBgContent {
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            width: 90%;
+            margin-left: -45%;
+            z-index: 2;
+            background: #fff;
+            padding: 10px;
+            display: none;
+        }
+
+        .layerBgContent ul {
+            overflow: hidden;
+            zoom: 1;
+        }
+
+        .layerBgContent ul li {
+            float: left;
+            width: 18%;
+            text-align: center;
+            border: 1px #eee solid;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            margin: 0 3% 3%;
+            padding: 5px 0;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .layerBgContent ul li.current {
+            color: #509FFC;
+            border: 1px #509FFC solid;
+        }
+
+        .layerBgFoot button {
+            background: #509FFC;
+            color: #fff;
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+        }
     </style>
 </head>
 <body>
@@ -116,11 +174,12 @@
     <div id="div_information" style="height:100%; margin-top: 10%;overflow:auto;  z-index: 1"></div>
     <div class="screen">
         <div class="weui-navbar">
-            <div class="weui-navbar__item weui_bar__item_on">
+            <div class="weui-navbar__item weui_bar__item_on hwlxClick">
                 货物类型(筛选)
             </div>
-            <div class="weui-navbar__item weui_bar__item_on">
+            <div class="weui-navbar__item weui_bar__item_on" id="city">
                 发货地(筛选)
+                <input class="_input" id="city" type="hidden" value="">
             </div>
         <#--<div class="weui-navbar__item">-->
         <#--选项三-->
@@ -128,6 +187,55 @@
         </div>
         <img src="${request.contextPath}/img/setting.png"/>
     </div>
+    <div class="layerBgs"></div>
+    <div class="layerBgContent">
+        <div class="layerBgBody">
+            <div class="hwlx">
+                <ul>
+                    <li onclick="hwlx(this)">普货</li>
+                    <li onclick="hwlx(this)">重货</li>
+                    <li onclick="hwlx(this)">泡货</li>
+                    <li onclick="hwlx(this)">设备</li>
+                    <li onclick="hwlx(this)">配件</li>
+                    <li onclick="hwlx(this)">建材</li>
+                    <li onclick="hwlx(this)">食品</li>
+                    <li onclick="hwlx(this)">饮料</li>
+                    <li onclick="hwlx(this)">水果</li>
+                    <li onclick="hwlx(this)">蔬菜</li>
+                    <li onclick="hwlx(this)">木材</li>
+                    <li onclick="hwlx(this)">煤炭</li>
+                    <li onclick="hwlx(this)">石材</li>
+                    <li onclick="hwlx(this)">家具</li>
+                    <li onclick="hwlx(this)">树苗</li>
+                    <li onclick="hwlx(this)">化肥</li>
+                    <li onclick="hwlx(this)">粮食</li>
+                    <li onclick="hwlx(this)">钢材</li>
+                </ul>
+            </div>
+        </div>
+        <div class="layerBgFoot">
+            <button type="button" class="currentCarLength sum_btn_hwlx">确定</button>
+        </div>
+    </div>
+
+<#--<div class="layerBgContent fhdCo">-->
+<#--<div class="layerBgBody">-->
+<#--<div class="hwlx">-->
+<#--<ul>-->
+<#--<li onclick="hwlx(this)">huowuleixing</li>-->
+<#--<li onclick="hwlx(this)">huowuleixing</li>-->
+<#--<li onclick="hwlx(this)">huowuleixing</li>-->
+<#--<li onclick="hwlx(this)">huowuleixing</li>-->
+<#--<li onclick="hwlx(this)">huowuleixing</li>-->
+<#--<li onclick="hwlx(this)">huowuleixing</li>-->
+<#--</ul>-->
+<#--</div>-->
+<#--</div>-->
+<#--<div class="layerBgFoot">-->
+<#--<button type="button" class="currentCarLength">确定</button>-->
+<#--</div>-->
+<#--</div>-->
+
 </section>
 <input type="hidden" id="currentPage" value="1">
 <input type="hidden" id="pageSize" value="10">
@@ -141,8 +249,21 @@
 <script type="text/javascript">
     $(function () {
         $(".content").height($("body").height() - $("header").height());
-        getData()
-    })
+        getData();
+        $(".hwlxClick").click(function () {
+            $(".layerBgs,.layerBgContent,.layerBgBody").show();
+        })
+    });
+    $("#city").click(function (e) {
+        SelCity(this, e);
+    });
+    $(".sum_btn_hwlx").click(function () {
+        $(".layerBgContent,.layerBgBody,.layerBgs").hide();
+    });
+    function hwlx(obj) {
+        $(obj).addClass("current").siblings("li").removeClass("current")
+        console.log($(obj).text())
+    }
     function getData() {
         var currentPage = $("#currentPage").val();
         var pageSize = $("#pageSize").val();

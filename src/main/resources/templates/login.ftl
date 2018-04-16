@@ -39,9 +39,9 @@
                     </div>
                     <div class="input_outer">
                         <span class="us_uer"></span>
-                        <input name="homeid" class="text"
+                        <input name="pwd" class="text"
                                style="color: #FFFFFF !important; position:absolute; z-index:100;" value=""
-                               type="text" placeholder="请输入房间号">
+                               type="password" placeholder="请输入密码">
                     </div>
                     <div class="aui-form-ty">
                         <input type="checkbox" name="ck" id="ckc"/>我已阅读<a href="#" style="color: #ed4242">「信息发布平台协议」</a>
@@ -63,17 +63,40 @@
 <script>
     $(".sumbit_login").click(function () {
         var telphone = $("input[name='telphone']").val();
-        var homeid = $("input[name='homeid']").val();
+        var pwd = $("input[name='pwd']").val();
         if (!$("#ckc").is(':checked')) {
             swal("警告!", "请同意信息发布平台协议", "warning");
             return false;
         }
-        if (telphone != "" && homeid != "") {
+        if (telphone != "" && pwd != "") {
             $("#form_login").submit();
         } else {
-            swal("警告!", "电话号码/房间号不能为空!", "warning");
+            swal("警告!", "电话号码/密码不能为空!", "warning");
         }
+        login(telphone, pwd);
     })
+    function login(telphone, pwd) {
+        $.ajax({
+            url: '/login',
+            type: 'POST', //GET
+            async: true, //或false,是否异步
+            data: {
+                'telphone': telphone,
+                'pwd': pwd
+            },
+            dataType: 'json', //返回的数据格式：json/xml/html/script/jsonp/text
+            success: function (data, textStatus, jqXHR) {
+                console.log(data)
+            },
+            error: function (xhr, textStatus) {
+                console.log('错误')
+                console.log(xhr)
+            },
+            complete: function () {
+                console.log('结束')
+            }
+        })
+    }
 
 </script>
 <div style="text-align:center;">
