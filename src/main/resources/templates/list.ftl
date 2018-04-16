@@ -158,6 +158,7 @@
             width: 100%;
             height: 40px;
             line-height: 40px;
+            font-size: 2.5em;
         }
     </style>
 </head>

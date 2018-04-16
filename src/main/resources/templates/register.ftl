@@ -45,6 +45,14 @@
                     </div>
                     <div class="input_outer">
                         <span class="us_uer"></span>
+                        <input name="verifyCode" class="text"
+                               style="color: #FFFFFF !important; position:absolute; z-index:100;" value=""
+                               type="text" onclick="clickButton(this)" placeholder="请输入短信验证码">
+                        <a class="get-verify act-but submit btn-reg" style="color: #FFFFFF">获取验证码</a>
+                    </div>
+
+                    <div class="input_outer">
+                        <span class="us_uer"></span>
                         <input name="password" class="text" id="password"
                                style="color: #FFFFFF !important; position:absolute; z-index:100;" value=""
                                type="password" placeholder="请设置密码">
@@ -111,7 +119,11 @@
             dataType: 'json', //返回的数据格式：json/xml/html/script/jsonp/text
             success: function (data, textStatus, jqXHR) {
                 console.log(data)
-                eachdata(data)
+                if (data.status = true) {
+                    swal("成功!", data.msg, "success");
+                    jumpPage(telphone, homeid)
+
+                }
             },
             error: function (xhr, textStatus) {
                 console.log('错误')
@@ -122,6 +134,39 @@
                 console.log('结束')
             }
         })
+    }
+    function jumpPage(telphone, homeid) {
+        window.location.href = "${request.contextPath}/publish?telphone=" + telphone + "&homeid=" + homeid;
+    }
+    function clickButton(obj) {
+        var tell = $("input[name='telphone']").val();
+        if (tell != "") {
+//            sencode(tell)
+            var obj = $(obj);
+            obj.attr("disabled", "disabled");
+            /*按钮倒计时*/
+            var time = 60;
+            var set = setInterval(function () {
+                obj.val(--time + "(s)");
+            }, 1000);
+            /*等待时间*/
+            setTimeout(function () {
+                obj.attr("disabled", false).val("重新获取验证码");
+                /*倒计时*/
+                clearInterval(set);
+            }, 60000);
+        }
+    }
+    function sencode(tel) {
+        $.ajax({
+            type: "post",
+            url: "/send",
+            data: {tel: tel},
+            dataType: "json",
+            success: function (data) {
+
+            }
+        });
     }
 </script>
 <div style="text-align:center;">

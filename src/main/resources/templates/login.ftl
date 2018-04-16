@@ -44,7 +44,7 @@
                                type="password" placeholder="请输入密码">
                     </div>
                     <div class="aui-form-ty">
-                        <input type="checkbox" name="ck" id="ckc"/>我已阅读<a href="#" style="color: #ed4242">「信息发布平台协议」</a>
+                        <input type="checkbox" name="ck" id="ckc"/>我已经阅读并同意<a href="#" style="color: #ed4242">《服务条款》</a>
                     </div>
                     <div class="mb2"><a class="act-but submit sumbit_login" style="color: #FFFFFF">登录</a></div>
                     <div class="mb2"><a href="/reg" class="act-but submit" style="color: #FFFFFF">注册</a></div>
