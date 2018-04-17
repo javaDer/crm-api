@@ -27,4 +27,9 @@ public class UserInfoService {
     public int updateAndInsertByTelphone(UserInfo user) {
         return userInfoMapper.updateAndInsertByTelphone(user);
     }
+
+    public UserInfo selectByTelphoneAndHomeid(UserInfo userInfo) {
+        UserInfo user = userInfoMapper.selectByTelphoneAndHomeid(userInfo);
+        return user;
+    }
 }

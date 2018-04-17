@@ -18,6 +18,8 @@
 
     <link rel="stylesheet" type="text/css" href="${request.contextPath}/css/normalize.css"/>
     <link rel="stylesheet" type="text/css" href="${request.contextPath}/css/demo.css"/>
+    <link rel="stylesheet" type="text/css" href="${request.contextPath}/css/weui.min.css">
+    <link rel="stylesheet" type="text/css" href="${request.contextPath}/css/jquery-weui.css">
     <!--必要样式-->
     <link rel="stylesheet" type="text/css" href="${request.contextPath}/css/component.css"/>
     <!--[if IE]>
@@ -30,7 +32,7 @@
         <div id="large-header" class="large-header">
             <canvas id="demo-canvas"></canvas>
             <div class="logo_box">
-                <h3>注册用户</h3>
+                <h3>用户注册</h3>
                 <form action="/reg" name="form_login" id="form_login" method="post">
                     <div class="input_outer">
                         <span class="u_user"></span>
@@ -47,8 +49,10 @@
                         <span class="us_uer"></span>
                         <input name="verifyCode" class="text"
                                style="color: #FFFFFF !important; position:absolute; z-index:100;" value=""
-                               type="text" onclick="clickButton(this)" placeholder="请输入短信验证码">
-                        <a class="get-verify act-but submit btn-reg" style="color: #FFFFFF">获取验证码</a>
+                               type="text" placeholder="请输入短信验证码">
+                        <input style="width:117px;" type="button"
+                               class="weui_btn weui_btn weui_btn_mini weui_btn_primary act-but submit get-verify"
+                               value="获取验证码" onclick="clickButton(this)">
                     </div>
 
                     <div class="input_outer">
@@ -140,8 +144,9 @@
     }
     function clickButton(obj) {
         var tell = $("input[name='telphone']").val();
-        if (tell != "") {
-//            sencode(tell)
+        var homeid = $("input[name='homeid']").val();
+        if (tell != "" && homeid != "") {
+            sencode(tell, homeid);
             var obj = $(obj);
             obj.attr("disabled", "disabled");
             /*按钮倒计时*/
@@ -155,18 +160,46 @@
                 /*倒计时*/
                 clearInterval(set);
             }, 60000);
+        } else {
+            swal("警告!", "电话号码不能为空!", "warning");
         }
     }
-    function sencode(tel) {
+    function sencode(tel, homeid) {
+        if (check(tel, homeid)) {
+            $.ajax({
+                type: "post",
+                url: "/sencode",
+                data: {'tel': tel},
+                dataType: "json",
+                success: function (data) {
+                }
+            });
+        } else {
+            swal("警告!", "电话号码房间号不匹配!", "warning");
+        }
+
+    }
+    function check(tel, homeid) {
+        var flag = false
         $.ajax({
             type: "post",
-            url: "/send",
-            data: {tel: tel},
+            url: "/check",
+            async: false,
+            data: {
+                'tel': tel,
+                'homeid': homeid
+            },
             dataType: "json",
             success: function (data) {
-
+                if (data.flag) {
+                    flag = true;
+                } else {
+                    flag = false;
+                }
             }
-        });
+
+        })
+        return flag;
     }
 </script>
 <div style="text-align:center;">

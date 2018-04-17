@@ -20,7 +20,7 @@
     color: #EEE;
     position: absolute;
     left: 50%;
-    top: 35%;
+    top: 45%;
     margin-left: -200px;
     margin-top: -250px;
 }
@@ -119,11 +119,12 @@
     border-radius: 50px;
     background: #0096e6;
 }
+
 .get-verify {
-    margin-left: 67%;
-    margin-top: -1%;
+    margin-left: 65%;
+    margin-top: 0%;
     color: #FFFFFF;
-    background: #19f90b;
-    line-height: 18px;
+    background: #00d1e6;
+    line-height: 9px;
     font-size: 14px;
 }

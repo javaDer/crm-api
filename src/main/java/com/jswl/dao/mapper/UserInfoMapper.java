@@ -20,4 +20,6 @@ public interface UserInfoMapper {
     UserInfo selectByTelphoneAndPwd(UserInfo user);
 
     int updateAndInsertByTelphone(UserInfo user);
+
+    UserInfo selectByTelphoneAndHomeid(UserInfo userInfo);
 }

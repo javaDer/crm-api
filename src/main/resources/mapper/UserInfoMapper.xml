@@ -164,7 +164,7 @@
         AND telphone = #{telphone,jdbcType=VARCHAR}
         AND status =0
     </select>
-    <select id="selectByTelphoneAndHomeId" parameterType="com.jswl.dao.models.UserInfo"
+    <select id="selectByTelphoneAndHomeid" parameterType="com.jswl.dao.models.UserInfo"
             resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>

@@ -3,15 +3,19 @@ package com.jswl.controllers;
 import cn.hutool.crypto.SecureUtil;
 import com.alibaba.fastjson.JSON;
 import com.jswl.dao.models.ShipmentInfo;
+import com.jswl.dao.models.ShortMessage;
 import com.jswl.dao.models.UserInfo;
 import com.jswl.service.ShipmentInfoService;
+import com.jswl.service.ShortMessageService;
 import com.jswl.service.UserInfoService;
+import com.jswl.utils.SendCode;
 import com.riversoft.weixin.common.jsapi.JsAPISignature;
 import com.riversoft.weixin.mp.jsapi.JsAPIs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,6 +35,8 @@ public class IndexControllers {
     private ShipmentInfoService shipmentInfoService;
     @Autowired
     private UserInfoService userInfoService;
+    @Autowired
+    private ShortMessageService shortMessageService;
 
     @RequestMapping(value = "/index")
     public ModelAndView index() {
@@ -56,8 +62,6 @@ public class IndexControllers {
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.setViewName("publish");
-//        modelAndView.addObject("telphone", telphone);
-//        modelAndView.addObject("homeid", homeid);
         return modelAndView;
     }
 
@@ -177,4 +181,43 @@ public class IndexControllers {
         }
         return map;
     }
+
+    @RequestMapping(value = "/sencode")
+    @ResponseBody
+    public void sencode(String tel) {
+        ShortMessage shortMessage = new ShortMessage();
+        Map<String, Object> result = SendCode.sendCode(tel);
+        Date dNow = new Date();
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd 'at' hh:mm:ss");
+        shortMessage.setCode(result.get("verifyCode").toString());
+        shortMessage.setTelphone(tel);
+        shortMessage.setStatus(0);
+        shortMessage.setUpdatetime(ft.format(dNow));
+        shortMessage.setSubmittime(ft.format(dNow));
+        int flag = shortMessageService.insertByShortMessage(shortMessage);
+
+        logger.info(shortMessage.getCode());
+
+    }
+
+    @RequestMapping(value = "/check")
+    @ResponseBody
+    public Map<String, Object> check(String tel, String homeid) {
+        Map<String, Object> map = new HashMap<>(4);
+        UserInfo userInfo = new UserInfo();
+        userInfo.setTelphone(tel);
+        userInfo.setHomeid(homeid);
+        //根据用户电话号码.房间号查询用户是否为空
+        UserInfo info = userInfoService.selectByTelphoneAndHomeid(userInfo);
+        //非空判断
+        if (!StringUtils.isEmpty(info)) {
+            map.put("flag", true);
+            map.put("msg", "该用户符合约定");
+        } else {
+            map.put("flag", false);
+            map.put("msg", "该用户不符合约定");
+        }
+        return map;
+    }
+
 }

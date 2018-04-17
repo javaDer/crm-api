@@ -1,19 +1,29 @@
 package com.jswl.utils;
 
-import com.google.common.annotations.VisibleForTesting;
+import com.jswl.dao.models.ShortMessage;
+import com.jswl.service.ShortMessageService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
  * Created by JavaDer on 2018-04-12.
  */
 public class SendCode {
-    public static String sendCode(String tel) {
+    @Autowired
+    private ShortMessageService shortMessageService;
+
+    public static Map<String, Object> sendCode(String tel) {
+        Map<String, Object> map = new HashMap<>();
         String result = "";
         String pushUrl = "http://web.duanxinwang.cc/asmx/smsservice.aspx";
         String type = "pt";
@@ -38,8 +48,9 @@ public class SendCode {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(result);
-        return result;
+        map.put("verifyCode", verifyCode);
+        map.put("telphone", tel);
+        return map;
     }
 
     public static String doPost(String pushUrl, String name, String pwd,
